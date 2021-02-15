@@ -1,0 +1,222 @@
+syntax = "proto3";
+
+package onebot;
+
+// 纯文本 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E7%BA%AF%E6%96%87%E6%9C%AC
+message TextData {
+    // 纯文本内容
+    string Text = 1;
+}
+
+// QQ 表情 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#qq-%E8%A1%A8%E6%83%85
+message FaceData {
+    // QQ 表情 ID  https://github.com/richardchien/coolq-http-api/wiki/%E8%A1%A8%E6%83%85-CQ-%E7%A0%81-ID-%E8%A1%A8
+    int32 ID = 1;
+}
+
+// 图片 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E5%9B%BE%E7%89%87
+message ImageData {
+    // 图片文件名
+    string File = 1;
+    // 图片类型，flash 表示闪照，无此参数表示普通图片
+    string Type = 2;
+    // 图片 URL
+    string URL = 3;
+    // 只在通过网络 URL 发送时有效，表示是否使用已缓存的文件，默认 1
+    int32 Cache = 4 [default = 1];
+    // 只在通过网络 URL 发送时有效，表示是否通过代理下载文件（需通过环境变量或配置文件配置代理），默认 1
+    int32 Proxy = 5 [default = 1];
+    // 只在通过网络 URL 发送时有效，单位秒，表示下载网络文件的超时时间，默认不超时
+    int32 TimeOut = 6 [default = 2147483647];
+}
+
+// 语音 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E8%AF%AD%E9%9F%B3
+message RecordData {
+    // 语音文件名
+    string File = 1;
+    // 发送时可选，默认 0，设置为 1 表示变声
+    int32 Magic = 2 [default = 0];
+    // 语音 URL
+    string URL = 3;
+    // 只在通过网络 URL 发送时有效，表示是否使用已缓存的文件，默认 1
+    int32 Cache = 4 [default = 1];
+    // 只在通过网络 URL 发送时有效，表示是否通过代理下载文件（需通过环境变量或配置文件配置代理），默认 1
+    int32 Proxy = 5 [default = 1];
+    // 只在通过网络 URL 发送时有效，单位秒，表示下载网络文件的超时时间，默认不超时
+    int32 TimeOut = 6 [default = 2147483647];
+}
+
+// 短视频 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E7%9F%AD%E8%A7%86%E9%A2%91
+message VideoData {
+    // 视频文件名
+    string File = 1;
+    // 视频 URL
+    string URL = 3;
+    // 只在通过网络 URL 发送时有效，表示是否使用已缓存的文件，默认 1
+    int32 Cache = 4 [default = 1];
+    // 只在通过网络 URL 发送时有效，表示是否通过代理下载文件（需通过环境变量或配置文件配置代理），默认 1
+    int32 Proxy = 5 [default = 1];
+    // 只在通过网络 URL 发送时有效，单位秒，表示下载网络文件的超时时间，默认不超时
+    int32 TimeOut = 6 [default = 2147483647];
+}
+
+// @某人 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E6%9F%90%E4%BA%BA
+message AtData {
+    string QQ = 1;
+}
+
+// 猜拳魔法表情 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E7%8C%9C%E6%8B%B3%E9%AD%94%E6%B3%95%E8%A1%A8%E6%83%85
+message RpsData {}
+
+// 掷骰子魔法表情 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E6%8E%B7%E9%AA%B0%E5%AD%90%E9%AD%94%E6%B3%95%E8%A1%A8%E6%83%85
+message DiceData {}
+
+// 窗口抖动 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E7%AA%97%E5%8F%A3%E6%8A%96%E5%8A%A8%E6%88%B3%E4%B8%80%E6%88%B3-
+message ShakeData {}
+
+// 戳一戳 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E6%88%B3%E4%B8%80%E6%88%B3
+message PokeData {
+    // 类型 https://github.com/mamoe/mirai/blob/f5eefae7ecee84d18a66afce3f89b89fe1584b78/mirai-core/src/commonMain/kotlin/net.mamoe.mirai/message/data/HummerMessage.kt#L49
+    int32 Type = 1;  
+    // ID
+    int32 ID = 2;
+    // 表情名
+    string Name = 3;
+}
+
+// 匿名发消息 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E5%8C%BF%E5%90%8D%E5%8F%91%E6%B6%88%E6%81%AF-
+message AnonymousData {
+    // 可选，表示无法匿名时是否继续发送
+    int32 Ignore = 1 [default = 0];
+}
+
+// 链接分享 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E9%93%BE%E6%8E%A5%E5%88%86%E4%BA%AB
+message ShareData {
+    // URL
+    string URL = 1;
+    // 标题
+    string Title = 2;
+    // 发送时可选，内容描述
+    string Content = 3;
+    // 发送时可选，图片 URL
+    string Image = 4;
+}
+
+// 推荐好友/群 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E6%8E%A8%E8%8D%90%E5%A5%BD%E5%8F%8B
+message ContactData {
+    // 推荐好友("qq")/群("group")
+    string Type = 1; 
+    // 被推荐人/群的 QQ 号
+    string ID = 2;
+}
+
+// 位置 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E4%BD%8D%E7%BD%AE
+message LocationData {
+    // 纬度
+    double Lat = 1;
+    // 经度
+    double Lon = 2;
+    // 发送时可选，标题
+    string Title = 3;
+    // 发送时可选，内容描述
+    string Content = 4;
+}
+
+// 音乐分享 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E9%9F%B3%E4%B9%90%E5%88%86%E4%BA%AB-
+message MusicData {
+    // QQ音乐("qq")/网易云音乐("163")/虾米音乐("xm")/自定义("custom")
+    string Type = 1; 
+    // 歌曲ID，Type!="custom"的时候填这个，不然填下面的
+    string ID = 2;
+    // 点击后跳转目标 URL
+    string URL = 3;
+    // 音乐 URL
+    string Audio = 4;
+    // 标题
+    string Title = 5;
+    // 发送时可选，内容描述
+    string Content = 6;
+    // 发送时可选，图片 URL
+    string Image = 7;
+}
+
+// 回复 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E5%9B%9E%E5%A4%8D
+message ReplyData {
+    // 回复时引用的消息 ID
+    int32 ID = 1;
+}
+
+// 合并转发 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E5%90%88%E5%B9%B6%E8%BD%AC%E5%8F%91-
+message ForwardData {
+    // 合并转发 ID，需通过 get_forward_msg API 获取具体内容
+    int32 ID = 1;
+}
+
+// 合并转发节点 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#%E5%90%88%E5%B9%B6%E8%BD%AC%E5%8F%91%E8%8A%82%E7%82%B9-
+message NodeData {
+    // 转发的消息 ID -- 直接转发现成的
+    int32 ID = 1;
+    // 转发自己组装的
+    // 发送者 QQ 号
+    string UserID = 2;
+    // 发送者昵称
+    string NickName = 3;
+    // 消息内容，支持发送消息时的 message 数据类型，见 API 的参数
+    repeated Segment Content = 4;
+}
+
+// XML 消息 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#xml-%E6%B6%88%E6%81%AF
+message XMLData {
+    // XML 内容
+    string data = 1;
+}
+
+// JSON 消息 https://github.com/howmanybots/onebot/blob/master/v11/specs/message/segment.md#json-%E6%B6%88%E6%81%AF
+message JSONData {
+    // JSON 内容
+    string data = 1;
+}
+
+message Segment {
+    string Type = 1;
+    oneof Data {
+        TextData TextData = 1;
+        FaceData FaceData = 2;
+        ImageData ImageData = 3;
+        RecordData RecordData = 4;
+        VideoData VideoData = 5;
+        AtData AtData = 6;
+        RpsData RpsData = 7;
+        DiceData DiceData = 8;
+        ShakeData ShakeData = 9;
+        PokeData PokeData = 10;
+        AnonymousData AnonymousData = 11;
+        ShareData ShareData = 12;
+        ContactData ContactData = 13;
+        LocationData LocationData = 14;
+        MusicData MusicData = 15;
+        ReplyData ReplyData = 16;
+        ForwardData ForwardData = 17;
+        NodeData NodeData = 18;
+        XMLData XMLData = 19;
+        JSONData JSONData = 20;
+    }
+}
+
+message Params {
+    string UserID = 1;
+    repeated Segment Message = 2;
+}
+
+message Request {
+    string Action = 1;
+    Params Params = 2;
+    string Echo = 3;
+}
+
+message Response {
+    string Status = 1;
+    int32 RetCode = 2;
+    repeated Segment Data = 3;
+    string Echo = 4;
+}
